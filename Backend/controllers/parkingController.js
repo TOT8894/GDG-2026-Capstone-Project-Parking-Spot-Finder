@@ -1,12 +1,14 @@
 import ParkingSpot from "../models/parkingModel.js";
 
-// standard API response shape
+//  Helper: standard API response shape
 const respond = (res, statusCode, success, message, data = null) => {
   const payload = { success, message };
   if (data !== null) payload.data = data;
   return res.status(statusCode).json(payload);
 };
 
+//  GET /parking-spots
+//  Returns all active parking spots.
 export const getAllParkingSpots = async (req, res) => {
   try {
     const { available, lat, lng, radius } = req.query;

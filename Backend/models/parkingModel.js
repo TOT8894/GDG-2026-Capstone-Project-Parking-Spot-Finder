@@ -48,7 +48,7 @@ const parkingSpotSchema = new mongoose.Schema(
 
 //  Pre-save hook
 parkingSpotSchema.pre("save", function () {
-  if (this.isNew && this.availableSlots == null) {
+  if (this.isNew && this.availableSlots === undefined) {
     this.availableSlots = this.totalSlots;
   }
   if (this.availableSlots > this.totalSlots) {
