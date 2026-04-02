@@ -1,14 +1,14 @@
 import { ParkingSpot } from "../models/parkingSpot.js";
 
-// ─────────────────────────────────────────────
 //  Helper: standard API response shape
-// ─────────────────────────────────────────────
 const respond = (res, statusCode, success, message, data = null) => {
   const payload = { success, message };
   if (data !== null) payload.data = data;
   return res.status(statusCode).json(payload);
 };
 
+//  GET /parking-spots
+//  Returns all active parking spots.
 export const getAllParkingSpots = async (req, res) => {
   try {
     const { available, lat, lng, radius } = req.query;
@@ -169,9 +169,7 @@ export const deleteParkingSpot = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────
 //  Private helpers
-// ─────────────────────────────────────────────
 const haversineKm = (lat1, lng1, lat2, lng2) => {
   const R    = 6371;
   const dLat = toRad(lat2 - lat1);

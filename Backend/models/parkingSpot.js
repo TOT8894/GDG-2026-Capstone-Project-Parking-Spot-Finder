@@ -47,14 +47,13 @@ const parkingSpotSchema = new mongoose.Schema(
 );
 
 //  Pre-save hook
-parkingSpotSchema.pre("save", function (next) {
+parkingSpotSchema.pre("save", function () {
   if (this.isNew && this.availableSlots === undefined) {
     this.availableSlots = this.totalSlots;
   }
   if (this.availableSlots > this.totalSlots) {
-    return next(new Error("Available slots cannot exceed total slots"));
+    throw new Error("Available slots cannot exceed total slots");
   }
-  next();
 });
 
 parkingSpotSchema.methods.toAPIFormat = function (extraFields = {}) {
