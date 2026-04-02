@@ -1,8 +1,6 @@
 import { ParkingSpot } from "../models/parkingSpot.js";
 
-// ─────────────────────────────────────────────
-//  Helper: standard API response shape
-// ─────────────────────────────────────────────
+// standard API response shape
 const respond = (res, statusCode, success, message, data = null) => {
   const payload = { success, message };
   if (data !== null) payload.data = data;
@@ -13,7 +11,6 @@ export const getAllParkingSpots = async (req, res) => {
   try {
     const { available, lat, lng, radius } = req.query;
 
-    // Build MongoDB query filter
     const filter = { isActive: true };
     if (available === "true") {
       filter.availableSlots = { $gt: 0 };
@@ -50,10 +47,6 @@ export const getAllParkingSpots = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────
-//  GET /parking-spots/:id
-//  Returns a single parking spot by MongoDB _id.
-// ─────────────────────────────────────────────
 export const getParkingSpotById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,7 +59,7 @@ export const getParkingSpotById = async (req, res) => {
 
     return respond(res, 200, true, "Parking spot retrieved successfully", spot.toAPIFormat());
   } catch (error) {
-    // Malformed MongoDB ObjectId
+    
     if (error.name === "CastError") {
       return respond(res, 400, false, "Invalid parking spot ID");
     }
@@ -75,14 +68,6 @@ export const getParkingSpotById = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────
-//  POST /parking-spots
-//  Creates a new parking spot.
-//  Protected — requires valid JWT.
-//
-//  Required body: { name, latitude, longitude, totalSlots }
-//  Optional body: { address }
-// ─────────────────────────────────────────────
 export const createParkingSpot = async (req, res) => {
   try {
     const { name, latitude, longitude, totalSlots, address } = req.body;
@@ -91,7 +76,6 @@ export const createParkingSpot = async (req, res) => {
       return respond(res, 400, false, "name, latitude, longitude and totalSlots are required");
     }
 
-    // availableSlots is auto-set to totalSlots by the pre-save hook
     const spot = new ParkingSpot({ name, latitude, longitude, totalSlots, address });
     await spot.save();
 
@@ -125,7 +109,7 @@ export const updateParkingSpot = async (req, res) => {
     if (availableSlots  !== undefined) spot.availableSlots  = availableSlots;
     if (address         !== undefined) spot.address         = address;
 
-    await spot.save(); // triggers pre-save hook for availableSlots guard
+    await spot.save(); 
 
     return respond(res, 200, true, "Parking spot updated successfully", spot.toAPIFormat());
   } catch (error) {
@@ -141,11 +125,6 @@ export const updateParkingSpot = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────
-//  DELETE /parking-spots/:id
-//  Soft-deletes (sets isActive = false).
-//  Protected — requires valid JWT.
-// ─────────────────────────────────────────────
 export const deleteParkingSpot = async (req, res) => {
   try {
     const { id } = req.params;
@@ -169,9 +148,7 @@ export const deleteParkingSpot = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────
 //  Private helpers
-// ─────────────────────────────────────────────
 const haversineKm = (lat1, lng1, lat2, lng2) => {
   const R    = 6371;
   const dLat = toRad(lat2 - lat1);
