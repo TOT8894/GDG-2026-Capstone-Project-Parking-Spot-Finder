@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import {ACCESS_TOKEN_SECRET_KEY} from "../config/env.js";
+
 export const verifyToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -21,5 +22,5 @@ export const verifyToken = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(401).json({ error: "invalid or expired token" });
-  }
+  };
 };
