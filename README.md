@@ -76,6 +76,8 @@ Logging: Morgan
 
 Create a .env file in the root directory:
 
+```
+# .env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 CLIENT_URL=http://localhost:3000
@@ -83,6 +85,7 @@ ACCESS_TOKEN_SECRET_KEY=your_access_secret
 REFRESH_TOKEN_SECRET_KEY=your_refresh_secret
 ACCESS_TOKEN_EXPIRES_IN=15m
 REFRESH_TOKEN_EXPIRES_IN=90d
+```
 
 ---
 
@@ -90,7 +93,7 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 ---
 
-###1. Authentication (/api/v1/auth)
+1. Authentication (/api/v1/auth)
 
 | Method   | Endpoint    | Description                            | Auth Required |
 | :------- | :---------- | :------------------------------------- | :------------ |
@@ -102,7 +105,7 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 ---
 
-##2. Parking Spots (/api/v1/parking-spots)
+2. Parking Spots (/api/v1/parking-spots)
 
 | Method     | Endpoint | Description                                | Auth Required |
 | :--------- | :------- | :----------------------------------------- | :------------ |
@@ -114,7 +117,7 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 ---
 
-###3. Reservations (/api/v1/reserve)
+3. Reservations (/api/v1/reserve)
 
 | Method   | Endpoint   | Description                              | Auth Required |
 | :------- | :--------- | :--------------------------------------- | :------------ |
@@ -132,6 +135,7 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 Signup/Register
 
+```
 JSON
 {
 "fullName": "John Doe",
@@ -139,9 +143,11 @@ JSON
 "password": "securePassword123",
 "role": "user"
 }
+```
 
 ---
 
+```
 Login
 
 JSON
@@ -149,6 +155,7 @@ JSON
 "email": "john@example.com",
 "password": "securePassword123"
 }
+```
 
 ---
 
@@ -215,12 +222,15 @@ isActive: Boolean (Used for soft-deletion)
 
 Clone & Enter:
 
+```
 Bash
 git clone [https://github.com/TOT8894/GDG-2026-Capstone-Project-Parking-Spot-Finder.git](https://github.com/TOT8894/GDG-2026-Capstone-Project-Parking-Spot-Finder.git)
 cd GDG-2026-Capstone-Project-Parking-Spot-Finder
+```
 
 ---
 
+```
 Install Dependencies:
 
 Bash
@@ -229,6 +239,7 @@ Run Development Mode:
 
 Bash
 npm run dev
+```
 
 ---
 
