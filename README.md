@@ -91,7 +91,8 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 ---
 
 ```
-1. Authentication (/api/v1/auth)
+###1. Authentication (/api/v1/auth)
+
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :--- |
 | **POST** | `/register` | Create a new user account | ❌ |
@@ -104,7 +105,8 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 ---
 
 ```
-2. Parking Spots (/api/v1/parking-spots)
+##2. Parking Spots (/api/v1/parking-spots)
+
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :--- |
 | **GET** | `/` | Get active spots (Supports lat/lng filter) | ❌ |
@@ -117,7 +119,8 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 ---
 
 ```
-3. Reservations (/api/v1/reserve)
+###3. Reservations (/api/v1/reserve)
+
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :--- |
 | **POST** | `/reserve` | Reserve a slot (Decrements availability) | ✅ |
