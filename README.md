@@ -136,7 +136,7 @@ EMAIL_PASS=your_app_password
 
 ---
 
-```
+```mermaid
 flowchart LR
   A[User Signup] --> B[Verification Email Sent]
   B --> C[User Clicks Verification Link]
