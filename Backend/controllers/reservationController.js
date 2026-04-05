@@ -1,4 +1,4 @@
-import Parking from "../models/parkingModel.js";
+import { ParkingSpot } from "../models/parkingSpot.js";
 import Reservation from "../models/reservationModel.js";
 
 export const reserveParking = async (req, res) => {
@@ -6,7 +6,7 @@ export const reserveParking = async (req, res) => {
     const { userId, parkingId } = req.body;
 
     // 1. Check parking exists
-    const parking = await Parking.findById(parkingId);
+    const parking = await ParkingSpot.findById(parkingId);
     if (!parking) {
       return res.status(404).json({ success: false, message: "Parking spot not found" });
     }
