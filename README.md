@@ -49,6 +49,8 @@ The project follows a modular MVC-like architecture for scalability:
 │   ├── authRoute.js         # /api/v1/auth
 │   ├── parkingRoute.js      # /api/v1/parking-spots
 │   └── reservationRoute.js  # /api/v1/reserve
+├── utils/
+│   └── sendEmail.js   # Email service (Nodemailer)
 ├── validation/
 │   └── userValidation.js    # Joi/Validation schemas
 ├── .env                     # Local environment secrets
@@ -85,6 +87,8 @@ ACCESS_TOKEN_SECRET_KEY=your_access_secret
 REFRESH_TOKEN_SECRET_KEY=your_refresh_secret
 ACCESS_TOKEN_EXPIRES_IN=15m
 REFRESH_TOKEN_EXPIRES_IN=90d
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
 ```
 
 ---
@@ -95,13 +99,16 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 1. Authentication (/api/v1/auth)
 
-| Method   | Endpoint    | Description                            | Auth Required |
-| :------- | :---------- | :------------------------------------- | :------------ |
-| **POST** | `/register` | Create a new user account              | ❌            |
-| **POST** | `/login`    | Login and receive tokens               | ❌            |
-| **POST** | `/refresh`  | Get new Access Token via Refresh Token | ❌            |
-| **POST** | `/logout`   | Invalidate current refresh token       | ✅            |
-| **GET**  | `/me`       | Retrieve current user profile          | ✅            |
+| Method   | Endpoint                 | Description                            | Auth Required |
+| :------- | :------------------------| :--------------------------------------| :------------ |
+| **POST** | `/register`              | Create a new user account              | ❌            |
+| **POST** | `/login`                 | Login and receive tokens               | ❌            |
+| **POST** | `/refresh`               | Get new Access Token via Refresh Token | ❌            |
+| **POST** | `/logout`                | Invalidate current refresh token       | ✅            |
+| **GET**  | `/me`                    | Retrieve current user profile          | ✅            |
+| **GET**  | `/verify-email/:token`   | Verify email                           | ❌            |
+| **POST**  | `/forgot-password`      | Send reset link                        |  ❌           |
+| **POST**  | `/reset-password/:token`| Reset password                         | ❌            |
 
 ---
 
@@ -129,6 +136,18 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 ---
 
+```
+flowchart LR
+  A[User Signup] --> B[Verification Email Sent]
+  B --> C[User Clicks Verification Link]
+  C --> D[Account Verified]
+  D --> E[User Login]
+  E --> F[Access + Refresh Tokens Issued]
+  F --> G[Refresh Token Rotation / Logout]
+```
+
+---
+
 # Authentication
 
 ---
@@ -142,6 +161,30 @@ JSON
 "email": "john@example.com",
 "password": "securePassword123",
 "role": "user"
+}
+```
+
+---
+
+Email Verification
+
+GET /verify-email/:token
+
+```
+Response
+
+{
+  "message": "Email verified successfully"
+}
+```
+
+---
+
+```
+Error Response
+
+{
+  "error": "Invalid or expired token"
 }
 ```
 
