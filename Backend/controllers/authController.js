@@ -227,11 +227,15 @@ export const resetPassword = async (req, res) => {
 
 export const AccessRefreshToken = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
-    if (!refreshToken) {
+     const authHeader = req.headers.authorization;
+
+    // ✅ Check header exists and format is correct
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "refresh token not found" });
     }
 
+    // ✅ Extract token
+    const refreshToken = authHeader.split(" ")[1];
     const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
 
     const refreshTokenDoc = await RefreshToken.findOne({
@@ -263,11 +267,15 @@ export const AccessRefreshToken = async (req, res) => {
 
 export const logOut = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
+    const authHeader = req.headers.authorization;
 
-    if (!refreshToken) {
+    // ✅ Check header exists and format is correct
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "refresh token not found" });
     }
+
+    // ✅ Extract token
+    const refreshToken = authHeader.split(" ")[1];
 
     const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
 
